@@ -1,12 +1,15 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { 
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut,
-    GoogleAuthProvider,
-    signInWithPopup,
-    sendPasswordResetEmail} from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendPasswordResetEmail,
+  GithubAuthProvider,
+  FacebookAuthProvider,
+  signInWithRedirect} from "firebase/auth";
 import { auth } from '../firebase-config'
 
 export const authContext = createContext();
@@ -37,6 +40,18 @@ export function AuthProvider ({children}) {
         return signInWithPopup(auth, googleProvider);
     }
 
+    const loginWithGithub = async () => {
+        const githubProvider = new GithubAuthProvider();
+        // console.log(githubProvider)
+        return signInWithPopup(auth, githubProvider);
+    }
+
+    const loginWithFaceBook = async () => {
+        const facebookProvider = new FacebookAuthProvider();
+        // console.log(facebookProvider)
+        return signInWithPopup(auth, facebookProvider);
+    }
+
     const resetPassword = (email) => sendPasswordResetEmail(auth, email);
 
     useEffect(() => {
@@ -51,7 +66,11 @@ export function AuthProvider ({children}) {
     }, [])
 
     return (
-        <authContext.Provider value={{signup, login, user, logout, loading, loginWithGoogle, resetPassword}}>
+        <authContext.Provider value={{
+            signup, login, user,
+            logout, loading, loginWithGoogle,
+            loginWithGithub, loginWithFaceBook,
+            resetPassword}}>
             {children}
         </authContext.Provider>
     );
