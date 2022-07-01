@@ -7,7 +7,7 @@ export default function Home() {
   const {user, logout, loading} = useAuth();
   const [error, setError] = useState("");
 
-  console.log(user)
+  // console.log(user)
 
   const handleLogout = async () => {
     try {

@@ -9,6 +9,7 @@ import {
   sendPasswordResetEmail,
   GithubAuthProvider,
   FacebookAuthProvider,
+  TwitterAuthProvider,
   signInWithRedirect} from "firebase/auth";
 import { auth } from '../firebase-config'
 
@@ -52,6 +53,12 @@ export function AuthProvider ({children}) {
         return signInWithPopup(auth, facebookProvider);
     }
 
+    const loginWithTwitter = async () => {
+        const twitterProvider = new TwitterAuthProvider();
+        // console.log(twitterProvider)
+        return signInWithRedirect(auth, twitterProvider);
+    }
+
     const resetPassword = (email) => sendPasswordResetEmail(auth, email);
 
     useEffect(() => {
@@ -70,6 +77,7 @@ export function AuthProvider ({children}) {
             signup, login, user,
             logout, loading, loginWithGoogle,
             loginWithGithub, loginWithFaceBook,
+            loginWithTwitter,
             resetPassword}}>
             {children}
         </authContext.Provider>

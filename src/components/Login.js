@@ -20,6 +20,7 @@ export default function Login() {
     loginWithGithub,
     resetPassword,
     loginWithFaceBook,
+    loginWithTwitter,
   } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -65,6 +66,15 @@ export default function Login() {
       setError(error.message);
     }
   };
+
+  const handleTwitterSignIn = async () => {
+    try {
+      await loginWithTwitter();
+      navigate("/");
+    } catch (error) {
+      setError(error.message);
+    }
+  }
 
   const handleResetPassword = async () => {
     if(!user.email) return setError('Please enter your email');
@@ -175,6 +185,15 @@ export default function Login() {
           w-full mt-3"
       >
         Login with Facebook
+      </button>
+
+      <button
+        onClick={handleTwitterSignIn}
+        className="bg-slate-50 hover:bg-slate-200 text-black
+          shadow-md rounded border-2 border-gray-300 py-2 px-4
+          w-full mt-3"
+      >
+        Login with Twitter
       </button>
     </div>
   );
